@@ -31,7 +31,7 @@ TuneDrop is a small self-hosted web app: the host machine (PC) starts a room and
 | Thing | Version |
 | --- | --- |
 | Node.js | **22.5+** (`node:sqlite` is used — no native deps, no rebuild). Newer LTS/current releases fine. |
-| Browsers | Any modern Chromium/Firefox/Safari (.isChecked a plain `<audio>` player). |
+| Browsers | Any modern Chromium/Firefox/Safari — it drives a plain `<audio>` element. |
 | Network | Phone and PC on the **same Wi-Fi/switch**. Guest networks with client isolation will block this. |
 
 > Windows / macOS / Linux all work. On Windows allow Node.js through Windows Defender Firewall when prompted (or see Troubleshooting).
@@ -170,7 +170,7 @@ On top of the smoke suite, the full GUI loop was hand-tested in a real browser: 
 ## Project structure
 
 ```
-music op/
+tunedrop/
 ├── package.json             # workspaces + scripts
 ├── scripts/
 │   ├── dev.mjs              # spawns server + vite together
