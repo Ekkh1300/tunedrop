@@ -1,0 +1,28 @@
+{
+  "name": "tunedrop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Send music between your devices on the same Wi-Fi: phone uploads, PC plays.",
+  "type": "module",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "engines": {
+    "node": ">=22.5"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run build --workspace client",
+    "start": "npm run start --workspace server",
+    "smoke": "node scripts/api-smoke.mjs",
+    "exe": "node scripts/build-exe.mjs",
+    "icon": "node scripts/make-icon.mjs",
+    "postinstall": "node scripts/check-node.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "postject": "^1.0.0-alpha.6",
+    "rcedit": "^5.0.2"
+  }
+}

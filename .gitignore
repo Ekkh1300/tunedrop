@@ -1,0 +1,21 @@
+# dependencies
+node_modules/
+
+# runtime data (database, uploaded songs, covers)
+server/data/
+
+# build output
+client/dist/
+
+# exe artifacts (built with `npm run exe`; too big for git — see Releases)
+app/
+tmp-sea/
+sea-manifest
+
+# env / os cruft
+.env
+.env.local
+.DS_Store
+Thumbs.db
+*.log
+

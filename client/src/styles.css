@@ -1,0 +1,145 @@
+/* TuneDrop — receiver-card aesthetic.
+   Warm near-black surfaces, cream text, one amber accent used only for
+   playback actions, monospace for machine readouts (codes, URLs, times). */
+
+@import "tailwindcss";
+
+@theme {
+  --color-ink:        #131009;
+  --color-surface:    #1B1710;
+  --color-raised:     #252018;
+  --color-line:       #352E22;
+  --color-line-soft:  #282218;
+  --color-cream:      #EFE7D8;
+  --color-dim:        #A99F8C;
+  --color-faint:      #6E6455;
+  --color-amber:      #F0A032;
+  --color-amber-deep: #C97F16;
+  --color-online:     #71C689;
+  --color-danger:     #E4654E;
+
+  --font-sans: "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system,
+               "Helvetica Neue", "Noto Sans", sans-serif;
+  --font-readout: "Cascadia Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+                  "Liberation Mono", monospace;
+
+  --radius-card: 0.875rem;
+
+  --animate-flash: flash 1.6s ease-out 1;
+  --animate-breathe: breathe 2.2s ease-in-out infinite;
+}
+
+@keyframes flash {
+  0%   { box-shadow: 0 0 0 1px var(--color-amber), 0 0 22px -4px color-mix(in srgb, var(--color-amber) 55%, transparent); }
+  100% { box-shadow: 0 0 0 1px transparent, 0 0 0 transparent; }
+}
+@keyframes breathe {
+  0%, 100% { opacity: 0.35; transform: scale(0.82); }
+  50%      { opacity: 1;    transform: scale(1); }
+}
+
+/* page-load reveal: once, on the shell only */
+.reveal {
+  animation: reveal-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* readout: tabular mono, no shifting digits */
+.readout {
+  font-family: var(--font-readout);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-cream);
+}
+
+/* track hover: warm but disciplined */
+.card-hover {
+  transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+.card-hover:hover {
+  background-color: var(--color-raised);
+  border-color: var(--color-line);
+  transform: translateY(-1px);
+}
+
+/* native range styling (seek + volume): amber thumb on hairline track */
+input[type="range"].track {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 1rem;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"].track::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--color-amber) 0%,
+    var(--color-amber) var(--fill, 0%),
+    var(--color-line) var(--fill, 0%)
+  );
+}
+input[type="range"].track::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  border-radius: 999px;
+  background: var(--color-cream);
+  border: 2px solid var(--color-amber);
+  box-shadow: 0 0 0 1px var(--color-ink);
+}
+input[type="range"].track::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-line);
+}
+input[type="range"].track::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-amber);
+}
+input[type="range"].track::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--color-cream);
+  border: 2px solid var(--color-amber);
+}
+
+/* visible keyboard focus, always */
+:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* slim scrollbars that don't shout */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 8px;
+  border: 3px solid var(--color-ink);
+}
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { animation: none; }
+  .animate-breathe { animation: none; opacity: 0.6; }
+  .flash { animation: none; }
+  .card-hover { transition: none; transform: none !important; }
+  * { scroll-behavior: auto !important; }
+}
