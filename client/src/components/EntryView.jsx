@@ -106,6 +106,12 @@ export function EntryView({ initialCode = '' }) {
           Tip: on the PC, open the same site and choose
           {' '}<span className="text-dim">Broadcast from here</span>, then scan the QR with the phone.
         </p>
+
+        <footer className="mt-8 flex items-center justify-center gap-1.5 pb-6 text-[11px] text-faint">
+          <span className="size-1.5 rounded-full bg-amber animate-breathe" aria-hidden="true" />
+          <span>made by</span>
+          <span className="text-[12px] font-semibold tracking-wide text-amber">Esi</span>
+        </footer>
       </div>
     </main>
   )

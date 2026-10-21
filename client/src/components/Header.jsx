@@ -18,6 +18,7 @@ function Mark() {
 export function Header() {
   const { room, connection, unpair, presence } = useStore()
   const [confirming, setConfirming] = useState(false)
+  const [about, setAbout] = useState(false)
 
   useEffect(() => {
     if (!confirming) return
@@ -26,15 +27,24 @@ export function Header() {
   }, [confirming])
 
   return (
+    <>
     <header
       className="sticky top-0 z-40 border-b border-line-soft bg-ink/80 backdrop-blur"
       style={{ paddingTop: 'env(safe-area-inset-top)' }}
     >
       <div className="mx-auto flex h-14 max-w-5xl items-center gap-3 px-4">
-        <div className="flex items-center gap-2.5">
+        <button
+          type="button"
+          onClick={() => setAbout(true)}
+          title="About TuneDrop"
+          className="flex items-center gap-2.5 rounded-lg px-1 py-0.5 transition hover:opacity-90 focus:outline-none focus-visible:ring-1 focus-visible:ring-amber/60"
+        >
           <Mark />
           <span className="text-[17px] font-semibold tracking-tight">TuneDrop</span>
-        </div>
+        </button>
+        <span className="hidden text-[10px] uppercase tracking-[0.18em] text-faint sm:inline">
+          by Esi
+        </span>
         <span className="flex-1" />
 
         {room && (
@@ -63,6 +73,9 @@ export function Header() {
         )}
       </div>
     </header>
+
+    {about && <AboutDialog onClose={() => setAbout(false)} />}
+    </>
   )
 }
 
@@ -86,5 +99,71 @@ function ConnPill() {
       )}
       {map.label}
     </span>
+  )
+}
+
+/* ------------------------------------------------------------------ about */
+
+function AboutDialog({ onClose }) {
+  useEffect(() => {
+    const onKey = (e) => e.key === 'Escape' && onClose()
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
+
+  return (
+    <div
+      className="fixed inset-0 z-50 grid place-items-center bg-ink/70 p-4 backdrop-blur-sm"
+      onClick={onClose}
+      role="presentation"
+    >
+      <section
+        aria-label="About TuneDrop"
+        className="w-full max-w-xs rounded-2xl border border-line bg-surface p-5"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center gap-2.5">
+          <Mark />
+          <div>
+            <p className="text-[15px] font-semibold tracking-tight">TuneDrop</p>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-faint">v1.0.0</p>
+          </div>
+        </div>
+
+        <p className="mt-4 text-xs leading-relaxed text-dim">
+          Move music between the screens of one home — the phone feeds, the
+          PC plays, everything stays on your own Wi-Fi.
+        </p>
+
+        <div className="mt-4 flex items-center gap-2 rounded-xl border border-amber/40 bg-ink/60 px-3 py-2.5">
+          <span className="size-1.5 rounded-full bg-amber animate-breathe" aria-hidden="true" />
+          <p className="text-[11px] text-faint">
+            design &amp; code by <span className="text-[12px] font-semibold text-amber">Esi</span>
+          </p>
+        </div>
+
+        <p className="mt-3 text-[10px] leading-relaxed text-faint">
+          no cloud · no accounts · your files stay home
+        </p>
+
+        <div className="mt-4 flex items-center justify-between gap-2">
+          <a
+            href="https://github.com/Ekkh1300/tunedrop"
+            target="_blank"
+            rel="noreferrer"
+            className="min-w-0 truncate text-[11px] text-dim underline decoration-line underline-offset-2 transition hover:text-amber"
+          >
+            github · Ekkh1300/tunedrop
+          </a>
+          <button
+            type="button"
+            onClick={onClose}
+            className="shrink-0 rounded-md border border-line px-2.5 py-1 text-[11px] text-dim transition hover:text-cream"
+          >
+            close
+          </button>
+        </div>
+      </section>
+    </div>
   )
 }
